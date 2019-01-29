@@ -1,25 +1,19 @@
-var Crawler = require("crawler");
+var Xray = require('x-ray');
+var x = Xray();
 
-var c = new Crawler({
-	maxConnections: 1,
-	callback: function(error, res, done) {
-		if(error) {
-			console.log(error);
-		} else {
-			var $ = res.$;
-			carTitle = 
-			  $("body")
-			  .children("table")
-			  .eq(2)
-        .children("tr")
-        .eq(0)
-        .children("td")
-			  .text();
+/*
+x('http://website-arthur.herokuapp.com/',
+  {
+    titulo: '.jumbotron-heading',
+    descricao: 'div.container > p'
+  }
+ )
+  .write('results.json');
 
-			console.log(carTitle);
-		}
-		done();
-	}
-});
+*/
 
-c.queue('https://www.carrosnaweb.com.br/fichadetalhe.asp?codigo=8905')
+x('https://www.usadosbr.com/carros-e-utilitarios/bmw/x4/2-0-28i-x-line-turbo/2016-branco-santa-cruz-de-goias-goias',
+  {
+  	combustivel: 'li.lista-combustivel p'
+  })
+  .write('results.json');
