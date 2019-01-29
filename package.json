@@ -13,6 +13,6 @@
   "author": "Arthur Borges",
   "license": "ISC",
   "dependencies": {
-    "request": "^2.88.0"
+    "crawler": "^1.2.0"
   }
 }

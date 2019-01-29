@@ -1,8 +1,25 @@
-var request = require('request');
+var Crawler = require("crawler");
 
-request('https://www.carrosnaweb.com.br/fichadetalhe.asp?codigo=8905',
- function(error, response, body) {
- 	console.log('error:', error);
- 	console.log('statusCode:', response && response.statusCode);
- 	console.log('body:', body);
- });
+var c = new Crawler({
+	maxConnections: 1,
+	callback: function(error, res, done) {
+		if(error) {
+			console.log(error);
+		} else {
+			var $ = res.$;
+			carTitle = 
+			  $("body")
+			  .children("table")
+			  .eq(2)
+        .children("tr")
+        .eq(0)
+        .children("td")
+			  .text();
+
+			console.log(carTitle);
+		}
+		done();
+	}
+});
+
+c.queue('https://www.carrosnaweb.com.br/fichadetalhe.asp?codigo=8905')
