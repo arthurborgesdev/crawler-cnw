@@ -1,5 +1,6 @@
 var Crawler = require("crawler");
-
+var fs = require('fs');
+var tropesArray = fs.createWriteStream('tropesArray.txt');
 
 
 var c = new Crawler({ 
@@ -8,26 +9,31 @@ var c = new Crawler({
 		else {
 			var $ = res.$;
 			var links = [];
-			/*
-			contents = {
-				title: $("title").text(),
-				articleTitle: $("h1.entry-title").text().trim(),
-				description: $("#main-article").children("p").eq(1).text().trim()
-			}
-			console.log(contents);
-			*/
 			$('a').each(function(i, elem) {
-        links[i] = $(this).attr('href')
+				//console.log(i, elem);
+        links[i] = $(elem).attr('href');
 			});
-			console.log(links);
+
+      let tropes = links.filter(function(element) {
+      	return element.match(/pmwiki\/pmwiki\.php/);
+      })
+      
+      console.log(tropes);
+
+      tropesArray.on('error', function(err) {
+      	console.log(err)
+      });
+      tropes.forEach(function(v) {
+      	console.log(v);
+      	tropesArray.write(v);
+      	tropesArray.write(', ' + '\n');
+      });
+      tropesArray.end();
 		}
-		//c.queue(links);
 		done();
 	}
 });
 
 c.queue(
-	'https://tvtropes.org/pmwiki/pmwiki.php/Main/TwinkleInTheEye',
-	//'https://tvtropes.org/pmwiki/pmwiki.php/Main/FourMoreMeasures',
-	//'https://tvtropes.org/pmwiki/pmwiki.php/WesternAnimation/GayPurree'
+	'https://tvtropes.org/pmwiki/pmwiki.php/Main/TwinkleInTheEye'
 );
