@@ -1,19 +1,33 @@
-var Xray = require('x-ray');
-var x = Xray();
+var Crawler = require("crawler");
 
-/*
-x('http://website-arthur.herokuapp.com/',
-  {
-    titulo: '.jumbotron-heading',
-    descricao: 'div.container > p'
-  }
- )
-  .write('results.json');
 
-*/
 
-x('https://www.usadosbr.com/carros-e-utilitarios/bmw/x4/2-0-28i-x-line-turbo/2016-branco-santa-cruz-de-goias-goias',
-  {
-  	combustivel: 'li.lista-combustivel p'
-  })
-  .write('results.json');
+var c = new Crawler({ 
+	callback: function(error, res, done) {
+		if(error) { console.log(error); }
+		else {
+			var $ = res.$;
+			var links = [];
+			/*
+			contents = {
+				title: $("title").text(),
+				articleTitle: $("h1.entry-title").text().trim(),
+				description: $("#main-article").children("p").eq(1).text().trim()
+			}
+			console.log(contents);
+			*/
+			$('a').each(function(i, elem) {
+        links[i] = $(this).attr('href')
+			});
+			console.log(links);
+		}
+		//c.queue(links);
+		done();
+	}
+});
+
+c.queue(
+	'https://tvtropes.org/pmwiki/pmwiki.php/Main/TwinkleInTheEye',
+	//'https://tvtropes.org/pmwiki/pmwiki.php/Main/FourMoreMeasures',
+	//'https://tvtropes.org/pmwiki/pmwiki.php/WesternAnimation/GayPurree'
+);
