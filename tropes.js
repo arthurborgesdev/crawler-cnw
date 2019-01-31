@@ -1,6 +1,5 @@
 var Crawler = require("crawler");
 var fs = require('fs');
-var tropesArray = fs.createReadStream('tropesArray.txt');
 
 var c = new Crawler({ 
 	callback: function(error, res, done) {
@@ -18,25 +17,12 @@ var c = new Crawler({
 		done();
 	}
 });
-
-// Tentando ler o arquivo .txt e salvar em um Array
-// para poder ser usado no c.queue para então serem extraídos
-// o content em um objeto e depois salvar no banco
-tropesArray.on('error', function(err) {
-  console.log(err)
+ 
+fs.readFile('tropesArray.txt', function(err, data) {
+	if (err) throw err;
+	console.log(data.toString().split(', '));
 });
-var tArray = [];
-tropesArray.on('readable', function() {
-  tArray.forEach(function(t) {
-  	tArray.push(tropesArray.read())
-  })
-  console.log(tArray);
-	//console.log(`${tropesArray.read()}`);
-})
 
-tropesArray.on('end', function() {
-	console.log('end');
-})
 
 /*
 c.queue(

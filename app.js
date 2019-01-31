@@ -18,7 +18,7 @@ var c = new Crawler({
       	return element.match(/pmwiki\/pmwiki\.php/);
       })
       
-      console.log(tropes);
+      //console.log(tropes);
 
       tropesArray.on('error', function(err) {
       	console.log(err)
@@ -26,14 +26,27 @@ var c = new Crawler({
       tropes.forEach(function(v) {
       	console.log(v);
       	tropesArray.write(v);
-      	tropesArray.write(', ' + '\n');
+      	tropesArray.write(', ');
       });
       tropesArray.end();
+      console.log("XDXDXDXDXDXDXDXDXDXDXDXDXDX")
+      fs.readFile('tropesArray.txt', function(err, data) {
+	      if (err) throw err;
+	      console.log(data.toString().split(', '));
+      });
 		}
 		done();
 	}
 });
 
-c.queue(
-	'https://tvtropes.org/pmwiki/pmwiki.php/Main/TwinkleInTheEye'
-);
+
+
+function Queue() {
+  var links = [];
+
+	c.queue(
+	  'https://tvtropes.org/pmwiki/pmwiki.php/Main/TwinkleInTheEye'
+  );
+}
+
+Queue();
