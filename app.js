@@ -32,7 +32,8 @@ var c = new Crawler({
       console.log("XDXDXDXDXDXDXDXDXDXDXDXDXDX")
       fs.readFile('tropesArray.txt', function(err, data) {
 	      if (err) throw err;
-	      console.log(data.toString().split(', '));
+	      arrayData = data.toString().split(', ');
+	      console.log(arrayData);
       });
 		}
 		done();
@@ -43,9 +44,13 @@ var c = new Crawler({
 
 function Queue() {
   var links = [];
-
+  var arrayData = [];
 	c.queue(
 	  'https://tvtropes.org/pmwiki/pmwiki.php/Main/TwinkleInTheEye'
+  );
+
+  c.queue(
+	  'https://tvtropes.org//pmwiki/pmwiki.php/Main/NewsTropes'
   );
 }
 
